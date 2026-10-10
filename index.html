@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urban Trendz - Cyberpunk Flyer</title>
+    <style>
+        :root {
+            /* Palette based on Retro-Futurism spec */
+            --primary: #0080FF;      /* Neon Blue */
+            --secondary: #FF006E;    /* Hot Pink */
+            --tertiary: #00FFFF;     /* Cyan */
+            --neutral: #1A1A2E;      /* Deep Black */
+            --surface: rgba(93, 52, 208, 0.15); /* Purple (glassmorphism approach for cards) */
+            --accent: #C0C0C0;       /* Metallic Silver */
+            --gold: #FFD700;         /* Gold */
+            --radius: 8px;
+        }
+
+        html {
+            font-size: 20px; /* Aumenta el tamaño base de la letra para que todo se vea más grande */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--neutral);
+            color: var(--accent);
+            font-family: monospace;
+            min-height: 100dvh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* CRT Scanlines Overlay */
+        body::after {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(18, 16, 16, 0) 50%,
+                rgba(0, 0, 0, 0.25) 50%
+            );
+            background-size: 100% 4px;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        /* Layout Grid */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1.5rem;
+            display: grid;
+            gap: clamp(4rem, 8vw, 8rem);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-family: monospace;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            /* Glitch effect base */
+            color: var(--tertiary);
+            text-shadow: 2px 0 var(--secondary), -2px 0 var(--primary);
+            animation: textGlitch 2s infinite linear alternate-reverse;
+        }
+        
+        @media (min-width: 768px) {
+            h1 { font-size: clamp(2.5rem, 5vw, 4rem); }
+        }
+
+        @keyframes textGlitch {
+            0% { text-shadow: 2px 0 var(--secondary), -2px 0 var(--primary); }
+            25% { text-shadow: -2px 0 var(--secondary), 2px 0 var(--primary); }
+            50% { text-shadow: 2px 0 var(--secondary), 2px 0 var(--primary); }
+            75% { text-shadow: -2px 0 var(--secondary), -2px 0 var(--primary); }
+            100% { text-shadow: 2px 0 var(--secondary), -2px 0 var(--primary); }
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: var(--secondary);
+            text-shadow: 0 0 8px rgba(255, 0, 110, 0.6);
+            margin-bottom: 1.5rem;
+            letter-spacing: 2px;
+        }
+
+        p {
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.6;
+            max-width: 72ch;
+            margin-bottom: 1.25rem;
+        }
+
+        /* Grammar & Vocab Highlights */
+        .grammar-highlight {
+            color: var(--gold);
+            font-weight: 700;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+        }
+
+        .vocab-highlight {
+            color: var(--tertiary);
+            font-weight: 700;
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+        }
+
+        /* Hero Section (Asymmetric) */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .hero {
+                grid-template-columns: 3fr 2fr;
+            }
+        }
+
+        .slogan {
+            color: var(--secondary);
+            font-size: 1.25rem;
+            font-weight: 500;
+            text-shadow: 0 0 5px rgba(255, 0, 110, 0.5);
+        }
+
+        .retro-img-container {
+            position: relative;
+            border: 2px solid var(--tertiary);
+            border-radius: var(--radius);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+            overflow: hidden;
+            animation: imageGlitch 4s infinite alternate;
+        }
+        
+        @keyframes imageGlitch {
+            0% { transform: skew(0deg); }
+            95% { transform: skew(0deg); }
+            96% { transform: skew(2deg) translate(2px, 0); filter: hue-rotate(90deg); }
+            98% { transform: skew(-2deg) translate(-2px, 0); }
+            100% { transform: skew(0deg); }
+        }
+
+        .retro-img-container img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            filter: contrast(1.2) saturate(1.5) hue-rotate(-10deg);
+        }
+
+        /* Button */
+        .btn-primary {
+            display: inline-block;
+            background-color: var(--primary);
+            color: var(--neutral);
+            padding: 12px 24px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: all 200ms ease-out;
+            border: none;
+            margin-top: 1.5rem;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: #0066cc; /* 8% darken */
+            box-shadow: 0 4px 15px rgba(0, 128, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 5px rgba(0, 128, 255, 0.5);
+        }
+
+        /* Products Grid (Asymmetric, No 3-equal-columns) */
+        .products-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .products-grid {
+                grid-template-columns: 2fr 1.5fr;
+                grid-template-rows: auto auto;
+            }
+            .product-card:nth-child(1) { grid-column: 1 / 2; grid-row: 1 / 3; }
+            .product-card:nth-child(2) { grid-column: 2 / 3; grid-row: 1 / 2; }
+            .product-card:nth-child(3) { grid-column: 1 / 2; grid-row: 3 / 4; }
+            .product-card:nth-child(4) { grid-column: 2 / 3; grid-row: 2 / 4; }
+        }
+
+        .product-card {
+            background-color: var(--surface);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            transition: all 200ms ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: skewX(-20deg);
+            transition: 0.5s;
+        }
+
+        .product-card:hover::before {
+            left: 150%;
+        }
+
+        .product-card:hover {
+            border-color: var(--tertiary);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4), 0 0 15px rgba(0, 255, 255, 0.2);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: calc(var(--radius) - 2px);
+            margin-bottom: 1rem;
+            border: 1px solid #333;
+            filter: contrast(1.1) grayscale(20%);
+        }
+
+        .product-card:nth-child(1) img {
+            height: 350px;
+        }
+
+        .product-card h3 {
+            font-size: 1.1rem;
+            color: var(--secondary);
+            margin-top: 0.5rem;
+        }
+
+        /* Why Choose Us Section */
+        .why-us {
+            border-left: 4px solid var(--secondary);
+            padding-left: 2rem;
+            background: linear-gradient(90deg, rgba(255, 0, 110, 0.05), transparent);
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            margin-bottom: 4rem;
+        }
+        
+        .why-us h2 {
+            color: var(--primary);
+            text-shadow: 0 0 8px rgba(0, 128, 255, 0.6);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- HEADER / HERO SECTION -->
+        <header class="hero">
+            <div class="hero-content">
+                <p class="slogan">&lt;SYS_INIT&gt;</p>
+                <h1>URBAN TRENDZ</h1>
+                <p class="slogan">The Trendiest Fashion in Town</p>
+                <p>Welcome to <strong>Urban Trendz</strong>! Located right in the city center, our store features a stunning minimalist style illuminated by colorful neon LED lights. It is <span class="grammar-highlight">more attractive than</span> the old boutiques in the area. We guarantee you an amazing shopping experience!</p>
+                <a href="#" class="btn-primary">VISIT TERMINAL</a>
+            </div>
+            <div class="retro-img-container">
+                <img src="https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Urban Trendz cyberpunk store interior">
+            </div>
+        </header>
+
+        <!-- CLOTHING & ACCESSORIES SECTION -->
+        <section>
+            <h2>&gt; OUR_COLLECTION.exe</h2>
+            <p>We sell a wide variety of <span class="vocab-highlight">clothes</span> and <span class="vocab-highlight">accessories</span> with bright colors, including cool <span class="vocab-highlight">t-shirts</span> and trendy <span class="vocab-highlight">jeans</span>. Check out our main items:</p>
+            
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Cool black leather jacket">
+                    <h3>[&gt;] <span class="vocab-highlight">Leather Jackets</span></h3>
+                </div>
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Beautiful elegant dress">
+                    <h3>[&gt;] <span class="vocab-highlight">Elegant Dresses</span></h3>
+                </div>
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Comfortable sports shoes">
+                    <h3>[&gt;] <span class="vocab-highlight">Sports Shoes</span></h3>
+                </div>
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Colorful sunglasses">
+                    <h3>[&gt;] <span class="vocab-highlight">Sunglasses</span></h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHY WE ARE THE BEST SECTION -->
+        <section class="why-us">
+            <h2>&gt; REASON_TO_CHOOSE_US</h2>
+            <p>Urban Trendz is simply <span class="grammar-highlight">the best</span>! We are <span class="grammar-highlight">the most modern</span> and <span class="grammar-highlight">the cheapest</span> store in the city.</p>
+            <p>Our elegant dresses are <span class="grammar-highlight">more beautiful than</span> the ones in the mall, and our sports shoes are <span class="grammar-highlight">more comfortable than</span> any other brand. Come and find your perfect outfit today!</p>
+        </section>
+        
+    </div>
+
+</body>
+</html>
